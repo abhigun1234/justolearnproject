@@ -1,16 +1,17 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 
 class FormsDemo extends Component {
     constructor(props){
         super(props)
         this.state={
-            itemnmae:'',
+            name:'',
             price:'',
             description:''
         }
     }
     handleUsernameChange=(event)=>{
-    this.setState({itemnmae:event.target.value})
+    this.setState({name:event.target.value})
     }
     handlePriceChange=(event)=>{
         this.setState({price:event.target.value})
@@ -18,8 +19,20 @@ class FormsDemo extends Component {
     handleDescriptionChange=(event)=>{
         this.setState({description:event.target.value})
         }
-        handleSubmit=(event)=>{
-           alert(this.state.itemnmae)
+        handleSubmit=e=>{
+                e.preventDefault()
+                console.log(this.state)
+                const headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'JWT fefege...'
+                  }
+                  
+                axios.post('http://192.168.1.104:8080/add_menu/',this.state,{headers:headers}).then(response=>{
+                    console.log("response",response)
+                }).catch(error=>{
+
+                    console.log("error",error)
+                })
             }
     render() {
         return (
@@ -29,21 +42,21 @@ class FormsDemo extends Component {
                 <div>
 
                     <label>
-                        name1
+                        name
                     </label>
                     {/* <input type='text'  /> */}
-                    <input value={this.state.username} className="form-control" id="exampleFormControlInput1" placeholder="Enter your name" onChange={this.handleUsernameChange}/>
+                    <input value={this.state.name} className="form-control" name="name" id="exampleFormControlInput1" placeholder="Enter your name" onChange={this.handleUsernameChange}/>
                     <label>
                         price
                     </label>
                     {/* <input type='text' value={this.state.price} onChange={this.handlePriceChange}/> */}
-                    <input value={this.state.price} className="form-control" id="exampleFormControlInput1" placeholder="Enter Price" onChange={this.handlePriceChange}/>
+                    <input value={this.state.price} className="form-control" name="price" id="exampleFormControlInput1" placeholder="Enter Price" onChange={this.handlePriceChange}/>
    
                     <label>
                         description
                     </label>
                     {/* <input type='text' value={this.state.description} onChange={this.handleDescriptionChange}/> */}
-                    <input value={this.state.description} className="form-control" id="exampleFormControlInput1" placeholder="Enter Description" onChange={this.handleDescriptionChange}/>
+                    <input value={this.state.description} name="description"  className="form-control" id="exampleFormControlInput1" placeholder="Enter Description" onChange={this.handleDescriptionChange}/>
                    <br/>
                     <button className="btn btn-primary" type="submit">Submit</button>
                 </div>
